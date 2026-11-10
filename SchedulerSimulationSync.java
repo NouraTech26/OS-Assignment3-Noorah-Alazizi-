@@ -108,13 +108,29 @@ class ReadyQueue {
     private final LinkedList<Thread> list = new LinkedList<>();   // FIFO queue of threads
     private final Map<Thread, Process> map = new HashMap<>();     // thread -> process (same idea as Assignment 1)
 
-    // TODO Feature 1: declare the lock protecting `list` and `map` here
+   private final ReentrantLock lock = new ReentrantLock();
 
     // TODO Feature 3: declare the counting semaphore that counts the processes waiting in the ready queue here
 
-    // Add a process to the ready queue (new process, or a process that did not finish its quantum)
+    
     public void add(Process process) {
-        // TODO Feature 1: protect this critical section
+    lock.lock();
+    try {
+        list.add(process);
+        map.put(process.getThread(), process);
+    } finally {
+        lock.unlock();
+    }
+}
+       public void add(Process process) {
+    lock.lock();
+    try {
+        list.add(process);
+        map.put(process.getThread(), process);
+    } finally {
+        lock.unlock();
+    }
+}
         Thread thread = new Thread(process);
         list.add(thread);
         map.put(thread, process);
