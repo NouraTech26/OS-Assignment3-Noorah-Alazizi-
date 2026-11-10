@@ -123,7 +123,7 @@ class ReadyQueue {
 
    private final ReentrantLock lock = new ReentrantLock();
 
-    // TODO Feature 3: declare the counting semaphore that counts the processes waiting in the ready queue here
+    private final java.util.concurrent.Semaphore semaphore = new java.util.concurrent.Semaphore(0);
 
     
     public void add(Process process) {
